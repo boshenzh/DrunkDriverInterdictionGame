@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang ="en">
+    <head>
+        <title>Drunk Driver Interdiction Game</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<!--         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ -->            <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+             <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>    
+             <script src="./index.js" type="text/javascript"></script>
+
+        <body>
+
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html">Teaching Tools | Data-Driven Optimal Interdiction Game</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html">Introduction</a></li>
+                    <li class="active"><a href="graph.html">Graph</a></li>
+
+                </ul>
+            </div>
+
+        </nav>
+        <form class="form-inline">
+           <label for = "game-category">Select a game you want to play: </label>
+          <select class="form-control" id="game-category">
+          <option>Drunken Driver</option>
+        </select>
+        </form>
+       
+        <form id="changeParaN" method="post" class="form-inline">
+          <div class="form-group">
+            <label for = "inputNumNode">Node#</label>
+            <input type="number" value="6"name="node" class="form-control" id="inputNumNode" placeholder="Input the number of nodes" min="5" max="10">
+          </div>
+          <div class="form-group">
+            <button type="button" id="generate-graph" class="btn btn-primary">&nbsp; Generate Network</button>
+          </div>
+          <div class="form-group">
+            
+          </div>
+        </form>
+
+      <!-- <div class="form-group col-md-10">
+              <form id="changeParaN" action="numn" method="post">
+                <div class="col-sm-3">
+                  <label for="inputNumNode" class="col-sm-2 col-form-label">Node #</label>
+                  <input type="text" name="node" class="form-control" id="inputNumNode" placeholder="Input the number of nodes" onchange="javascript:this.form.submit()">
+                </div>
+              </form>
+
+              <button type="button" id="generate-graph">&nbsp; Generate Network</button>
+
+              <label for="inputNumPolice" class="col-sm-1 col-form-label">Police #</label>
+              <form id="changePara" action="nump" method="post">
+                <div class="col-sm-3">
+                  <input type="text" name="police" class="form-control" id="inputNumPolice" placeholder="Iput the number of policemen" onchange="javascript:this.form.submit()">
+                </div>
+              </form>
+              
+
+          </div> -->
+        <div class="container-fluid">
+            <div class = "row">
+                <div class="col-xs-6">
+                  <section id="graph" class="sec">
+                    <div style="height: 400px" id = "graph-container">
+
+                    </div>
+                  </section>
+                </div>
+                <div class="col-xs-6">
+                  <form id="changePara" method="post" class="form-inline">
+                    <label for="inputNumPolice">Police #</label>
+                      <input type="number" name="police" value = 0 class="form-control" id="inputNumPolice" placeholder="Input the number of policemen", min="1",max="5"> 
+                    <div id="policeIcon"></div>
+
+                  </form>
+                  <div class="slidercontainer">
+
+                    <form id="changeDiff" method="post" class="form-inline">
+                      <label for="difficultyLevel" class="form-label">Level of Difficulty</label>
+                      10<input id="difficulty" type="range" step="10" class="slider form-control" min = 10 max = 100>100  
+
+
+                      <b class="p-6" id="difficulty-output"></b>
+                      
+                    </form>
+                    <form id="changePortion" method="post"class="form-inline">
+                      <label for="portionOfDrunkenDriver" class="form-label">Portion of Drunken Driver</label>
+                      10<input id="portionDD" type="range" step="10" class="slider form-control" min = 10 max = 100>100  
+                      <b class="p-6" id="PDD-output"></b>
+                      
+                    </form>
+                    <button type="button" id="compute-py" class="btn btn-primary">&nbsp; Ready</button>
+
+                  </div>
+                  <hr>
+
+                  <div class="hint-section">
+
+                      <div class="center-block">
+                        <br>
+                        <p>Position the policemen, and hit <b>Add Police</b> Button 
+                        <span >
+                        <button type="button" disabled id="add-police" class="btn btn-primary">&nbsp; Add Police</button>
+                        </span></p>
+                        <br>
+                       </div>
+                   
+                  </div>
+            
+                  <div class="calculate-result">
+
+
+                  <button type="button" disabled id="compute-user" class="btn btn-primary">&nbsp; Calculate Performance</button>
+                  <input id ="percentageOut" type="text">
+                  <button id="reset" disabled class="btn btn-primary">Reset</button>
+                  </div>
+                  <!-- <div class="checkbox">
+                    <label><input type="checkbox" id="optimalSwitch">Optimal Policing Strategy</label>
+                    
+                  </div> -->
+                  <div class="result-container">
+                    <button id="showLocation" disabled class="btn btn-primary">Display answer</button>
+<!-- 
+                    <p class="bg-info">Policemen Location: </p>
+                   <p class="bg-info" id="policeSelected"></p> -->
+                  </div>
+
+
+                  
+                  
+                  
+                  
+
+                  <div class="col-xs-5">
+                    <section id="best-output" class="sec">
+                    </section>
+                    <section id="user-output" class="sec">
+                    </section>
+
+                  </div>
+                </div>
+            </div>
+
+        
+
+        
+        
+        
+        <footer>
+            <nav class="navbar navbar-fixed-bottom navbar-inverse">
+              <div class="container-fluid">
+                <div class="navbar-header">
+                  <a class="navbar-brand" href="#">ISE Quick Links</a>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                  <li><a target = _blank href="https://canvas.vt.edu/courses/">Canvas</a></li>
+                  <li><a target = _blank href="https://piazza.com">Piazza </a></li>
+                  <li><a target = _blank href="http://google.com">Schedule</a></li>
+                </ul>
+              </div>
+            </nav>
+          </footer>
+
+
+
+        </div>
+               
+    </body>
+</html>
