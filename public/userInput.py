@@ -29,6 +29,7 @@ decision_input= np.matrix(policeInput)
 
 f = np.array(weight,dtype=np.uint32) # boshen gives an array sink = 0
 f[I-1] = 0 # indicate source
+f[I-2] = 0
 
 
 r_t = difficulty
@@ -134,7 +135,9 @@ model.bound.add(sum(model.y_a[j,I-1] for j in range(I)) + sum(model.y_n[j,I-1] f
           #model.bound.add(model.D[i,j]-N[i,j]+sum(model.y[i,j,d] for d in range(I))-sum(model.y[i,k,j] for k in range(N)) == 0) #3k
 
 SolverFactory("glpk").solve(model)
-user_result = model.obj()
+
+user_result = np.ceil(model.obj())
+
 print(user_result)
 # List = []
 # for i in model.x:

@@ -30,7 +30,7 @@ capacity = dataJson['capacity']
 # np.random.seed(1234)
 f = np.array(weight,dtype=np.uint32) # boshen gives an array sink = 0
 f[I-1] = 0 # indicate source
-
+f[I-2] = 0
 
 r_t = difficulty
 r_a = 1-r_t
@@ -132,7 +132,7 @@ model.bound.add(sum(model.x[i,j] for i in range(I) for j in range(I)) <= Np) #3g
           #model.bound.add(model.D[i,j]-N[i,j]+sum(model.y[i,j,d] for d in range(I))-sum(model.y[i,k,j] for k in range(N)) == 0) #3k
 
 SolverFactory("glpk").solve(model)
-best_result = model.obj()
+best_result = np.ceil(model.obj())
 print(best_result)
 List = []
 for i in model.x:
