@@ -135,8 +135,7 @@ model.bound.add(sum(model.y_a[j,I-1] for j in range(I)) + sum(model.y_n[j,I-1] f
           #model.bound.add(model.D[i,j]-N[i,j]+sum(model.y[i,j,d] for d in range(I))-sum(model.y[i,k,j] for k in range(N)) == 0) #3k
 
 SolverFactory("glpk").solve(model)
-
-user_result = np.ceil(model.obj())
+user_result = model.obj()
 
 print(user_result)
 # List = []

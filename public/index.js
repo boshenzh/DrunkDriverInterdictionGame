@@ -33,10 +33,11 @@ var network;
 var policeNum = 1;
 var curPoliceNum = 0;
 var nodeInt = 6;
-var bestResult =0;
+var bestResult = 0;
 var yourResult = 0;
 var ready = false;
-var output = []
+var output = [];
+var policeList = [];
 $(document).ready(function () {
   $("#inputNumPolice").change(function () {
     var n = $("#inputNumPolice").val();
@@ -115,7 +116,7 @@ $(document).ready(function () {
   $(function () {
     document.getElementById("graph-container").style.border = "dashed #800000";
     document.getElementById("graph-container").style.borderRadius = "5px";
-    
+
     showEdgeButton = document.getElementById("showLocation");
     showEdgeButton.addEventListener("click", showEdge);
 
@@ -123,6 +124,8 @@ $(document).ready(function () {
     hideCompleteButton.addEventListener("click", runPy);
     userResultButton = document.getElementById("compute-user");
     userResultButton.addEventListener("click", runPyUser);
+    userResultButton = document.getElementById("showHint");
+    userResultButton.addEventListener("click", showHint);
 
     nodeButton = document.getElementById("generate-graph");
     nodeButton.addEventListener("click", generateNode);
@@ -157,27 +160,63 @@ $(document).ready(function () {
     // initialize your network!
     network = new vis.Network(container, data, options);
   });
+  function showHint() {
+    
+    const uncoloredEs = edges.get();
+    var correctnum = 0;
+    for (var a = 0; a < uncoloredEs.length; a++) {
+      if (policeList.includes(uncoloredEs[a].id)) {
+        for (var e = 1; e < output.length; e++) {
+          var text = output[e].slice(1, output[e].length - 1);
+          const posArray = text.split(", ");
+          const bfrom = parseInt(posArray[0]);
+          const bto = parseInt(posArray[1]);
+          console.log("jjj");
+          console.log(uncoloredEs[a]);
+          console.log(bfrom);
+          console.log(bto);
+  
+          if (uncoloredEs[a].from == bfrom && uncoloredEs[a].to == bto) {
+            correctnum = correctnum +1;
+            uncoloredEs[a].color = {
+              color: "green",
+            };
+            edges.update(uncoloredEs[a]);
+          } 
+        }
+      }
+    }
+    if (bestResult == yourResult){
+      $("#best-output").html("That's Correct! You caught: " + yourResult + " drunken drivers");
+    }
+    else{
+      $("#best-output").html(correctnum+ " polimen were placed correctly!\nNumber of drunk driver caught: " + yourResult);
+    }
 
-  function showEdge(){
-    for(var e =1; e<output.length;e++){
+    
+
+  }
+  function showEdge() {
+    for (var e = 1; e < output.length; e++) {
       const uncoloredEs = edges.get();
-      console.log(output[e]);
-      var text = output[e].slice(1,output[e].length-1);
+      var text = output[e].slice(1, output[e].length - 1);
       const posArray = text.split(", ");
-      console.log(posArray)
-       const bfrom = posArray[0];
-       const bto = posArray[1];
-      for(var a =0; a<uncoloredEs.length;a++){
-        if (uncoloredEs[a].from == bfrom && uncoloredEs[a].to == bto){
+      const bfrom = posArray[0];
+      const bto = posArray[1];
+      for (var a = 0; a < uncoloredEs.length; a++) {
+        if (uncoloredEs[a].from == bfrom && uncoloredEs[a].to == bto) {
           uncoloredEs[a].color = {
-            color: "red",
-          }
+            color: "green",
+          };
           edges.update(uncoloredEs[a]);
         }
       }
     }
+     $("#best-output").html("Number of drunk driver caught by best decision: " +bestResult);
+
   }
   function runPy() {
+    reset();
     if (!ready) {
       ready = true;
       document.getElementById("difficulty").disabled = true;
@@ -188,11 +227,11 @@ $(document).ready(function () {
 
       document.getElementById("compute-py").innerText = "Unready";
 
-
       document.getElementById("reset").disabled = false;
       document.getElementById("compute-user").disabled = false;
       document.getElementById("add-police").disabled = false;
       document.getElementById("showLocation").disabled = false;
+      document.getElementById("showHint").disabled = false;
 
       console.log("calculate actual score");
       $.ajax({
@@ -206,7 +245,7 @@ $(document).ready(function () {
         contentType: "application/json",
         success: function (data) {
           bestResult = parseInt(data[0]);
-          
+
           output = data;
           console.log("data =" + data);
           // console.log(bestEdges)
@@ -226,8 +265,7 @@ $(document).ready(function () {
       document.getElementById("compute-user").disabled = true;
       document.getElementById("add-police").disabled = true;
       document.getElementById("showLocation").disabled = true;
-
-
+      document.getElementById("showHint").disabled = true;
     }
   }
   function runPyUser() {
@@ -243,19 +281,25 @@ $(document).ready(function () {
       }),
       contentType: "application/json",
       success: function (data) {
-        
         console.log("data =" + data);
-        yourResult = data[0]; 
-        // $("#user-output").html(data);
-        $("#percentageOut").val(parseInt(yourResult/bestResult *100) +"%");
+        yourResult = parseInt(data[0]);
         
+        // $("#user-output").html(data);
+        $("#percentageOut").val(
+          parseInt((yourResult / bestResult) * 100) + "%"
+        );
       },
     });
   }
 
   function reset() {
     console.log("reset clicked");
+    $("#best-output").html("")
+    $("#percentageOut").val(
+      
+    );
     curPoliceNum = policeNum;
+    policeList = [];
     // policeList = [];
     policeMatrix = [];
     for (var i = 0; i < nodeInt; i++) {
@@ -286,7 +330,7 @@ $(document).ready(function () {
     }
 
     $.post("/reset", {}, function (data, status) {
-      alert("Data: " + data + "\nStatus: " + status);
+      // alert("Data: " + data + "\nStatus: " + status);
     });
   }
   function addPolice() {
@@ -302,6 +346,8 @@ $(document).ready(function () {
     ) {
       //change visually: police icon
       curPoliceNum--;
+      policeList.push(network.getSelection().edges[0]);
+      console.log(policeList);
       document.getElementById("policeIcon").innerHTML = "";
       for (let k = 0; k < curPoliceNum; k++) {
         document.getElementById("policeIcon").innerHTML +=
@@ -343,7 +389,7 @@ $(document).ready(function () {
     console.log("nodebuttonclicked");
     var inputVal = document.getElementById("inputNumNode").value;
     nodeInt = parseInt(inputVal);
-    numSink = 1;
+    numSink = 2;
     numSource = parseInt((nodeInt - numSink) / 2);
     numMid = nodeInt - numSink - numSource;
     if (nodeInt != NaN) {
@@ -362,8 +408,8 @@ $(document).ready(function () {
           image: "./res.png",
           fixed: true,
           x: 0,
-          y: i * 100,
-          size: sourceNum1 / 5 + 20,
+          y: i * 120,
+          size: sourceNum1 / 5 +25,
         });
       }
       for (var j = 0; j < numMid; j++) {
@@ -375,8 +421,8 @@ $(document).ready(function () {
           image: "./house.png",
           fixed: true,
           x: 250,
-          y: j * 120,
-          size: numOfPeople / 5 + 20,
+          y: j * 140,
+          size: numOfPeople / 5 + 25,
         });
       }
       var sinkNum = 0;
@@ -388,8 +434,18 @@ $(document).ready(function () {
         image: "./mall.png",
         fixed: true,
         x: 450,
+        y: 100,
+        size: sinkNum / 5 + 25,
+      });
+      nodes.add({
+        id: nodeInt - 2,
+        label: "" + sinkNum,
+        shape: "image",
+        image: "./mall.png",
+        fixed: true,
+        x: 450,
         y: 200,
-        size: sinkNum / 5 + 20,
+        size: sinkNum / 5 + 25,
       });
       var container = document.getElementById("graph-container");
 
@@ -404,14 +460,14 @@ $(document).ready(function () {
       }
       sumF = 0;
       maxF = nodeSize[0];
-      for(var ele = 0;ele<nodeSize.length;ele++){
+      for (var ele = 0; ele < nodeSize.length; ele++) {
         sumF = sumF + nodeSize[ele];
-        if(maxF< nodeSize[ele]){
+        if (maxF < nodeSize[ele]) {
           maxF = nodeSize[ele];
         }
       }
 
-      capacityRangeL = sumF/numSource;
+      capacityRangeL = sumF / numSource;
       capacityRangeR = maxF;
 
       for (var k = numSource; k < numSource + numMid; k++) {
@@ -421,7 +477,9 @@ $(document).ready(function () {
             to: k,
             arrows: { to: { enabled: true, type: "arrow", scaleFactor: 0.4 } },
             color: "gray",
-            value: Math.floor(Math.random() * (capacityRangeR - capacityRangeL) + capacityRangeL),
+            value: Math.floor(
+              Math.random() * (capacityRangeR - capacityRangeL) + capacityRangeL
+            ),
             smooth: { type: "cubicBezier", roundness: Math.random() },
             scaling: { max: 6 },
           });
@@ -429,13 +487,15 @@ $(document).ready(function () {
 
         //edges.add({from: j, to: i,arrows:{to:{enabled:true,type:"vee"}},color:"gray"})
       }
-      for (var q = numSource; q < nodeInt - 2; q++) {
+      for (var q = numSource; q < nodeInt - 3; q++) {
         edges.add({
           from: q,
           to: q + 1,
           arrows: { to: { enabled: true, type: "arrow", scaleFactor: 0.4 } },
           color: "gray",
-          value: Math.floor(Math.random() * (capacityRangeR - capacityRangeL) + capacityRangeL),
+          value: Math.floor(
+            Math.random() * (capacityRangeR - capacityRangeL) + capacityRangeL
+          ),
           smooth: { type: "curvedCCW", roundness: Math.random() },
           scaling: { max: 6 },
         });
@@ -444,18 +504,33 @@ $(document).ready(function () {
           to: q,
           arrows: { to: { enabled: true, type: "arrow", scaleFactor: 0.4 } },
           color: "gray",
-          value: Math.floor(Math.random() * (capacityRangeR - capacityRangeL) + capacityRangeL),
+          value: Math.floor(
+            Math.random() * (capacityRangeR - capacityRangeL) + capacityRangeL
+          ),
           smooth: { type: "curvedCCW", roundness: Math.random() },
           scaling: { max: 6 },
         });
       }
-      for (var s = numSource; s < nodeInt - 1; s++) {
+      for (var s = numSource; s < nodeInt - 2; s++) {
         edges.add({
           from: s,
           to: nodeInt - 1,
           arrows: { to: { enabled: true, type: "arrow", scaleFactor: 0.4 } },
           color: "gray",
-          value: Math.floor(Math.random() * (capacityRangeR - capacityRangeL) + capacityRangeL),
+          value: Math.floor(
+            Math.random() * (capacityRangeR - capacityRangeL) + capacityRangeL
+          ),
+          smooth: { type: "cubicBezier", roundness: Math.random() },
+          scaling: { max: 6 },
+        });
+        edges.add({
+          from: s,
+          to: nodeInt - 2,
+          arrows: { to: { enabled: true, type: "arrow", scaleFactor: 0.4 } },
+          color: "gray",
+          value: Math.floor(
+            Math.random() * (capacityRangeR - capacityRangeL) + capacityRangeL
+          ),
           smooth: { type: "cubicBezier", roundness: Math.random() },
           scaling: { max: 6 },
         });
