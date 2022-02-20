@@ -30,7 +30,7 @@ var costMatrix = [];
 var nodeSize = [];
 var capacityMatrix = [];
 var network;
-var policeNum = 1;
+var policeNum = 2;
 var curPoliceNum = 0;
 var nodeInt = 6;
 var bestResult = 0;
@@ -39,9 +39,14 @@ var ready = false;
 var output = [];
 var policeList = [];
 $(document).ready(function () {
+  $("#inputNumNode").change(function () {
+    var n = $("#inputNumNode").val();
+    if (n < 5) $("#inputNumNode").val(5);
+    if (n > 8) $("#inputNumNode").val(8);
+  });
   $("#inputNumPolice").change(function () {
     var n = $("#inputNumPolice").val();
-    if (n < 1) $("#inputNumPolice").val(1);
+    if (n < 2) $("#inputNumPolice").val(2);
     if (n > 5) $("#inputNumPolice").val(5);
   });
 
@@ -52,7 +57,7 @@ $(document).ready(function () {
       document.getElementById("policeIcon").innerHTML = "";
       for (let k = 0; k < curPoliceNum; k++) {
         document.getElementById("policeIcon").innerHTML +=
-          '<span class="glyphicon glyphicon-user"></span>';
+          ' <img src="policeman.jpg" alt="police" class="img-fluid" style="width:48px;height:48px;">';
       }
     }
   });
@@ -114,6 +119,7 @@ $(document).ready(function () {
 
 (function ($, window, document) {
   $(function () {
+    generateNode();
     document.getElementById("graph-container").style.border = "dashed #800000";
     document.getElementById("graph-container").style.borderRadius = "5px";
 
@@ -313,7 +319,7 @@ $(document).ready(function () {
     document.getElementById("policeIcon").innerHTML = "";
     for (let k = 0; k < policeNum; k++) {
       document.getElementById("policeIcon").innerHTML +=
-        '<span class="glyphicon glyphicon-user"></span>';
+        '<img src="policeman.jpg" alt="police" class="img-fluid" style="width:48px;height:48px;">';
     }
     // document.getElementById("inputNumPolice").value = 0;
     // document.getElementById('policeIcon').innerHTML ="<span class=\"glyphicon glyphicon-user\"></span>";
@@ -351,7 +357,7 @@ $(document).ready(function () {
       document.getElementById("policeIcon").innerHTML = "";
       for (let k = 0; k < curPoliceNum; k++) {
         document.getElementById("policeIcon").innerHTML +=
-          '<span class="glyphicon glyphicon-user"></span>';
+          '<img src="policeman.jpg" alt="police" class="img-fluid" style="width:48px;height:48px;">';
       }
       //change edge color
       var e = network.getSelectedEdges();
@@ -359,7 +365,7 @@ $(document).ready(function () {
       var edgeClicked = edges.get(e[0]);
       console.log(edgeClicked);
       edgeClicked.color = {
-        color: "blue",
+        color: "maroon",
       };
       edges.update(edgeClicked);
       //change backend
@@ -410,6 +416,7 @@ $(document).ready(function () {
           x: 0,
           y: i * 120,
           size: sourceNum1 / 5 +25,
+          
         });
       }
       for (var j = 0; j < numMid; j++) {
@@ -429,23 +436,23 @@ $(document).ready(function () {
 
       nodes.add({
         id: nodeInt - 1,
-        label: "" + sinkNum,
+        label: "",
         shape: "image",
         image: "./mall.png",
         fixed: true,
         x: 450,
-        y: 100,
-        size: sinkNum / 5 + 25,
+        y: 50,
+        size: sinkNum / 5 + 50,
       });
       nodes.add({
         id: nodeInt - 2,
-        label: "" + sinkNum,
+        label: "" ,
         shape: "image",
         image: "./mall.png",
         fixed: true,
         x: 450,
         y: 200,
-        size: sinkNum / 5 + 25,
+        size: sinkNum / 5 + 50,
       });
       var container = document.getElementById("graph-container");
 
@@ -455,8 +462,14 @@ $(document).ready(function () {
       for (var i = 0; i < allNodes.length; i++) {
         var thisN = allNodes[i];
         var weightStr = thisN.label;
-        var weight = parseInt(weightStr);
-        nodeSize.push(weight);
+        if(weightStr == ""){
+          nodeSize.push(0)
+        }
+        else{
+          var weight = parseInt(weightStr);
+        
+          nodeSize.push(weight);
+        }
       }
       sumF = 0;
       maxF = nodeSize[0];
