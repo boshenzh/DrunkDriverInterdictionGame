@@ -38,6 +38,11 @@ var yourResult = 0;
 var ready = false;
 var output = [];
 var policeList = [];
+var sourcePic = "./res.png"
+var midPic = "./house.png"
+var sinkPic = "./mall.png"
+
+
 $(document).ready(function () {
   $("#inputNumNode").change(function () {
     var n = $("#inputNumNode").val();
@@ -119,7 +124,40 @@ $(document).ready(function () {
 
 (function ($, window, document) {
   $(function () {
+    function listQ(){
+       var selectValue = document.getElementById("game-category").value;
+       var textValue = document.getElementById("altertext");
+
+        if(selectValue =="iem"){
+          sourcePic = "./enemybase.png";
+          midPic = "./pillbox.png";
+          sinkPic = "./camp.png";
+          textValue.innerHTML = "Percentage of enemies:"
+          generateNode();
+        }
+        else if(selectValue =="smug"){
+          sourcePic = "./warehouse.png";
+          midPic = "./checkpoint.png";
+          sinkPic = "./border.png"
+          textValue.innerHTML = "Percentage of smuggler:"
+          generateNode();
+        }
+        else if(selectValue =="dd"){
+           sourcePic = "./res.png"
+           midPic = "./house.png"
+           sinkPic = "./mall.png"
+           textValue.innerHTML = "Percentage of drunk driver:"
+          generateNode();
+        }
+
+    }
+  document.getElementById("game-category").onchange = listQ;
+      
+    
     generateNode();
+    // var select = document.getElementById('language');
+    // var value = select.options[select.selectedIndex].value; 
+    
     document.getElementById("graph-container").style.border = "dashed #800000";
     document.getElementById("graph-container").style.borderRadius = "5px";
 
@@ -166,6 +204,10 @@ $(document).ready(function () {
     // initialize your network!
     network = new vis.Network(container, data, options);
   });
+  
+    
+
+  
   function showHint() {
     
     const uncoloredEs = edges.get();
@@ -193,10 +235,10 @@ $(document).ready(function () {
       }
     }
     if (bestResult == yourResult){
-      $("#best-output").html("That's Correct! You caught: " + yourResult + " drunken drivers");
+      $("#best-output").html("That's Correct!");
     }
     else{
-      $("#best-output").html(correctnum+ " polimen were placed correctly!\nNumber of drunk driver caught: " + yourResult);
+      $("#best-output").html(correctnum+ " polimen were placed correctly!");
     }
 
     
@@ -411,7 +453,7 @@ $(document).ready(function () {
           id: i,
           label: "" + sourceNum1,
           shape: "image",
-          image: "./res.png",
+          image: sourcePic,
           fixed: true,
           x: 0,
           y: i * 120,
@@ -425,7 +467,7 @@ $(document).ready(function () {
           id: j + numSource,
           label: "" + numOfPeople,
           shape: "image",
-          image: "./house.png",
+          image: midPic,
           fixed: true,
           x: 250,
           y: j * 140,
@@ -438,7 +480,7 @@ $(document).ready(function () {
         id: nodeInt - 1,
         label: "",
         shape: "image",
-        image: "./mall.png",
+        image: sinkPic,
         fixed: true,
         x: 450,
         y: 50,
@@ -448,7 +490,7 @@ $(document).ready(function () {
         id: nodeInt - 2,
         label: "" ,
         shape: "image",
-        image: "./mall.png",
+        image: sinkPic,
         fixed: true,
         x: 450,
         y: 200,

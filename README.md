@@ -1,14 +1,17 @@
-# Drunk Driver Interdiction Game
+# Network Interdiction Game
 
-All the instances in this section are executed in Python 3.6 with calls to solver Gurobi (version 8.1.1 with default settings) on a personal PC with 1.6 GHz Intel Core i5 processor and 8G of memory
+This app design is based on Bootstrap 3.4.1 and was hosted by express.Js, the underlying optimization models are executed in Python 3.7 with calls to Pyomo solver.
 
-This app design is based on Bootstrap 3.4.1 and was hosted by express.Js, the underlying optimization models are executed in Python 3.7 with calls to solve Pxxx (Xiaohan fills in, check the version number) on a xxx." 
+Notice that vis.js 4.0 is used to create the node network. You can find related API here: https://unpkg.com/vis-network/standalone/umd/vis-network.min.js
 
-vis.js 4.0 were used to create node network.you can find related API here:https://unpkg.com/vis-network/standalone/umd/vis-network.min.js 
+To use it on your personal computer, please follow the following steps:
 
-to use it on your personal computer: 
-1. download node.Js from https://nodejs.org/en/download/ and follow the instruction there
-2. execute "node ./server.js" in the terminal
-3. open http://localhost:3000/ in your web browser. 
+1. Download node.Js from https://nodejs.org/en/download/ and follow the corresponding instructions;
+2. Download Pyomo from http://www.pyomo.org/installation and follow the corresponding instructions;
+3. Download glpk from https://www.gnu.org/software/glpk/#downloading and follow the corresponding instructions; it can also be downloaded using Anaconda.
+2. Execute "node ./server.js" in the terminal;
+3. Open http://localhost:3000/ in your web browser.
 
+ 
 
+Please contact developer Boshen boshenz@vt.edu for any questions. Thank you!

@@ -21,16 +21,16 @@
         <a class="navbar-brand" href="index.html">Teaching Tools | Data-Driven Optimal Interdiction Game</a>
       </div>
       <ul class="nav navbar-nav">
-        <li ><a href="index.html">Introduction</a></li>
-        <li class="active"><a href="graph.html">Network Interdiction</a></li>
-        <!-- <li><a href="invasionEnemyMonitoring.html">Invasion Enemy Monitoring</a></li>
-        <li><a href="smugglingInterdiction.html">Smuggling Interdiction</a></li> -->
+        <li><a href="index.html">Introduction</a></li>
+        <li><a href="graph.html">Drunk Driver Interdiction</a></li>
+        <li><a href="invasionEnemyMonitoring.html">Invasion Enemy Monitoring</a></li>
+        <li class="active"><a href="smugglingInterdiction.html">Smuggling Interdiction</a></li>
 
-    </ul>
-    <a class="navbar-item element">
-      <img src="vt.png" alt="Logo" style="float:right;width:12rem;height: 50px;position:relative;">
+      </ul>
+      <a class="navbar-item element">
+        <img src="vt.png" alt="Logo" style="float:right;width:12rem;height: 50px;position:relative;">
+      </a>
 
-    </a>
     </div>
     
 
@@ -39,10 +39,7 @@
     <form class="form-inline">
       <label for="game-category">Select a game you want to play: </label>
       <select class="form-control" id="game-category">
-        <option value="dd" >Drunk Driver Interdiction</option>
-        <option value="iem" >Invasion Enemy Monitor</option>
-        <option value="smug" >Smuggling Interdiction</option>
-
+        <option>Drunk Driver</option>
       </select>
     </form>
 
@@ -112,7 +109,7 @@
 
           
           <form id="changePortion" method="post" class="form-inline">
-            <label for="portionOfDrunkenDriver" class="form-label" id="altertext">Percentage of drunk drivers: </label>
+            <label for="portionOfDrunkenDriver" class="form-label">Percentage of drunk drivers: </label>
             10<input id="portionDD" type="range" step="10" class="slider form-control" min=10 max=100>100
             <b class="p-6" id="PDD-output"></b>
 
