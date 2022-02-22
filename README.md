@@ -12,6 +12,6 @@ To use it on your personal computer, please follow the following steps:
 2. Execute "node ./server.js" in the terminal;
 3. Open http://localhost:3000/ in your web browser.
 
- 
+our updated app design can be accessed at https://github.com/ZhangPieChuan/DrunkDriverInterdictionGame 
 
 Please contact developer Boshen boshenz@vt.edu for any questions. Thank you!
