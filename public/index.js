@@ -260,7 +260,7 @@ $(document).ready(function () {
         }
       }
     }
-     $("#best-output").html("Number of drunk driver caught by best decision: " +bestResult);
+    //  $("#best-output").html("Number of drunk driver caught by best decision: " +bestResult);
 
   }
   function runPy() {
