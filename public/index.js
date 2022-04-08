@@ -1,4 +1,5 @@
-// create an array with nodes
+// create an array with nodes that will be used in vis.js
+// please refer to https://visjs.github.io/vis-network/docs/network/ 
 var nodes = new vis.DataSet([
   // { id: 0, label: "res", shape: "image", image:"./res.png",fixed: true, x: 0, y: 10,value:10000},
   // { id: 1, label: "res", shape: "circle", fixed: true, x: 0, y: 200 },
@@ -24,6 +25,8 @@ var edges = new vis.DataSet([
   // { id:12,from: 4, to: 3, arrows: { to: { enabled: true, type: "vee" } } },
   // { id:13,from: 3, to: 4, arrows: { to: { enabled: true, type: "vee" } } },
 ]);
+
+//global variables
 var policeList = [];
 var policeMatrix = [];
 var costMatrix = [];
@@ -42,19 +45,21 @@ var sourcePic = "./res.png"
 var midPic = "./house.png"
 var sinkPic = "./mall.png"
 
-
+//define website element beavior with JQuery.
 $(document).ready(function () {
+  //give constraint to input field: number of node 5 - 8 
   $("#inputNumNode").change(function () {
     var n = $("#inputNumNode").val();
     if (n < 5) $("#inputNumNode").val(5);
     if (n > 8) $("#inputNumNode").val(8);
   });
+  //give constraint to input field: number of police 2 - 5 
   $("#inputNumPolice").change(function () {
     var n = $("#inputNumPolice").val();
     if (n < 2) $("#inputNumPolice").val(2);
     if (n > 5) $("#inputNumPolice").val(5);
   });
-
+  //add police icon according to the input of police number. this is using policeman.jpg
   $("#inputNumPolice").change(function () {
     if (Number(document.getElementById("inputNumPolice").value) != NaN) {
       policeNum = parseInt(document.getElementById("inputNumPolice").value);
@@ -67,6 +72,7 @@ $(document).ready(function () {
     }
   });
 
+  //update number of node using AJAX.
   $("#changeParaN").change(function (event) {
     event.preventDefault();
     var num1 = $("#inputNumNode").val();
@@ -81,6 +87,8 @@ $(document).ready(function () {
       },
     });
   });
+
+  //update number of police using AJAX
   $("#changePara").change(function (event) {
     event.preventDefault();
     var num1 = $("#inputNumPolice").val();
@@ -94,6 +102,8 @@ $(document).ready(function () {
       },
     });
   });
+
+  //update difficulty of the game once the scroll bar changed
   $("#changeDiff").change(function (event) {
     event.preventDefault();
     var num1 = $("#difficulty").val();
@@ -107,6 +117,8 @@ $(document).ready(function () {
       },
     });
   });
+
+  //update portion of drunk driver using AJAX
   $("#changePortion").change(function (event) {
     event.preventDefault();
     var num1 = $("#portionDD").val();
@@ -124,6 +136,9 @@ $(document).ready(function () {
 
 (function ($, window, document) {
   $(function () {
+    /*
+      change the text and pictures according to the game category
+    */
     function listQ(){
        var selectValue = document.getElementById("game-category").value;
        var textValue = document.getElementById("altertext");
@@ -151,16 +166,18 @@ $(document).ready(function () {
         }
 
     }
-  document.getElementById("game-category").onchange = listQ;
+    document.getElementById("game-category").onchange = listQ;
       
-    
+    //generate graph in the beginning
     generateNode();
     // var select = document.getElementById('language');
     // var value = select.options[select.selectedIndex].value; 
     
     document.getElementById("graph-container").style.border = "dashed #800000";
     document.getElementById("graph-container").style.borderRadius = "5px";
-
+    /*
+      give button eventlistener. 
+    */
     showEdgeButton = document.getElementById("showLocation");
     showEdgeButton.addEventListener("click", showEdge);
 
@@ -187,6 +204,7 @@ $(document).ready(function () {
     var sliderValueDD = document.getElementById("PDD-output");
     sliderValueDD.innerHTML = sliderDD.value;
 
+    //change the displayed text value
     slider.oninput = function () {
       sliderValue.innerHTML = this.value;
     };
@@ -201,13 +219,15 @@ $(document).ready(function () {
     };
     var options = {};
 
-    // initialize your network!
+    // initialize the network
     network = new vis.Network(container, data, options);
   });
   
     
 
-  
+    /*
+      functionality of show hint button. change the edge color to green 
+    */  
   function showHint() {
     
     const uncoloredEs = edges.get();
@@ -219,7 +239,6 @@ $(document).ready(function () {
           const posArray = text.split(", ");
           const bfrom = parseInt(posArray[0]);
           const bto = parseInt(posArray[1]);
-          console.log("jjj");
           console.log(uncoloredEs[a]);
           console.log(bfrom);
           console.log(bto);
@@ -244,6 +263,10 @@ $(document).ready(function () {
     
 
   }
+
+    /*
+    function for display answer button. display the correct answer for the current graph. 
+    */  
   function showEdge() {
     for (var e = 1; e < output.length; e++) {
       const uncoloredEs = edges.get();
@@ -263,6 +286,11 @@ $(document).ready(function () {
     //  $("#best-output").html("Number of drunk driver caught by best decision: " +bestResult);
 
   }
+
+      /*
+
+      run the python code for calculating correct input when user hit "ready" button. it also disable and enable buttons
+    */
   function runPy() {
     reset();
     if (!ready) {
@@ -316,6 +344,10 @@ $(document).ready(function () {
       document.getElementById("showHint").disabled = true;
     }
   }
+  /*
+    run the python code for calculating user input when user hit "display answer" button.
+     it also disable and enable buttons
+  */
   function runPyUser() {
     console.log("calculate user input");
     $.ajax({
@@ -339,13 +371,14 @@ $(document).ready(function () {
       },
     });
   }
+  /*
+    reset everything to default. called when clicking on "reset" button
 
+  */
   function reset() {
     console.log("reset clicked");
     $("#best-output").html("")
-    $("#percentageOut").val(
-      
-    );
+    $("#percentageOut").val();
     curPoliceNum = policeNum;
     policeList = [];
     // policeList = [];
@@ -381,6 +414,10 @@ $(document).ready(function () {
       // alert("Data: " + data + "\nStatus: " + status);
     });
   }
+
+  /*
+    change edge color when click on edge& click on "add police button". update the global variable.
+  */
   function addPolice() {
     console.log("buttonclicked");
     console.log(network.getConnectedNodes(network.getSelection().edges));
@@ -433,6 +470,10 @@ $(document).ready(function () {
       }
     }
   }
+  /*
+    used for generating node network graph. parsing user default and generate specific graph. 
+    please refer to https://visjs.github.io/vis-network/docs/network/ 
+  */
   function generateNode() {
     console.log("nodebuttonclicked");
     var inputVal = document.getElementById("inputNumNode").value;
