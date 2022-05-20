@@ -2,205 +2,222 @@
 <html lang="en">
 
 <head>
-  <title>Drunk Driver Interdiction Game</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <!--         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
- -->
-  <script src="http://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
-  <script src="./index.js" type="text/javascript"></script>
+    <title>Drunk Driver Interdiction Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!--         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   -->
+    <script src=//cdnjs.cloudflare.com/ajax/libs/seedrandom/2.3.10/seedrandom.min.js></script>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script src="./index.js" type="text/javascript"></script>
 
 <body>
 
-  <nav class="navbar navbar-inverse" style="background-color: #630031;">
+<nav class="navbar navbar-inverse" style="background-color: #630031;">
     <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="index.html">Teaching Tools | Data-Driven Optimal Interdiction Game</a>
-      </div>
-      <ul class="nav navbar-nav">
-        <li ><a href="index.html">Introduction</a></li>
-        <li class="active"><a href="graph.html">Network Interdiction</a></li>
-        <!-- <li><a href="invasionEnemyMonitoring.html">Invasion Enemy Monitoring</a></li>
-        <li><a href="smugglingInterdiction.html">Smuggling Interdiction</a></li> -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html">Teaching Tools | Data-Driven Optimal Interdiction Game</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="index.html">Introduction</a></li>
+            <li class="active"><a href="graph.html">Network Interdiction</a></li>
+            <!-- <li><a href="invasionEnemyMonitoring.html">Invasion Enemy Monitoring</a></li>
+            <li><a href="smugglingInterdiction.html">Smuggling Interdiction</a></li> -->
 
-    </ul>
-    <a class="navbar-item element">
-      <img src="vt.png" alt="Logo" style="float:right;height: 50px;position:relative;">
+        </ul>
+        <a class="navbar-item element">
+            <img src="vt.png" alt="Logo" style="float:right;height: 50px;position:relative;">
 
-    </a>
+        </a>
     </div>
-    
 
-  </nav>
-  <div class="container-fluid col-xs-6 px-2">
+
+</nav>
+<div class="container-fluid col-xs-6 px-2">
     <form class="form-inline">
-      <label for="game-category">Select a game you want to play: </label>
-      <select class="form-control" id="game-category">
-        <option value="dd" >Drunk Driver Interdiction</option>
-        <option value="iem" >Invasion Enemy Monitor</option>
-        <option value="smug" >Smuggling Interdiction</option>
+        <label for="game-category">Select a game you want to play: </label>
+        <select class="form-control" id="game-category">
+            <option value="dd">Drunk Driver Interdiction</option>
+            <option value="iem">Invasion Enemy Monitor</option>
+            <option value="smug">Smuggling Interdiction</option>
 
-      </select>
+        </select>
     </form>
 
     <form id="changeParaN" method="post" class="form-inline">
-      <div class="form-group">
-        <label for="inputNumNode">The number of nodes in the system: </label>
-        <input type="number" value="6" name="node" class="form-control" id="inputNumNode"
-          placeholder="Input the number of nodes" min="5" max="8" style = "text-align:center;">
-      </div>
-      <div class="form-group">
-        <button type="button" id="generate-graph" class="btn btn-primary btn-lg">Generate Network</button>
-      </div>
-      <div class="form-group">
-
-      </div>
+        <div class="form-group">
+            <label for="inputNumNode">The number of nodes in the system: </label>
+            <input type="number" value="6" name="node" class="form-control" id="inputNumNode"
+                   placeholder="Input the number of nodes" min="5" max="8" style="text-align:center;">
+        </div>
+        <div class="form-group">
+            <button type="button" id="generate-graph" class="btn btn-primary btn-lg">Generate Network</button>
+        </div>
+        <div class="form-group">
+            <label for="inputSeed">Seed(1 - 100): </label>
+            <input type="number" value="1" name="seed" class="form-control" id="inputSeed"
+                   placeholder="Input the seed" min="1" max="100" style="text-align:center;">
+        </div>
     </form>
     <div class="graph">
-      <p>
+        <p>
 
-      </p>
-      <section id="graph" class="sec">
-        <div style="height: 400px" id="graph-container">
+        </p>
+        <section id="graph" class="sec">
+            <div style="height: 400px" id="graph-container">
 
-        </div>
-      </section>
+            </div>
+            <ul class="legend">
+                <li><span><img src="res.png" alt="restaurant" style="width:20px;height:20px;"></span> restaurant</li>
+                <li><span><img src="house.png" alt="residential" style="width:20px;height:20px;"></span> residential area</li>
+                <li><span><img src="mall.png" alt="mall" style="width:20px;height:20px;"></span> Mall</li><br>
+            </ul>
+
+        </section>
+
+        <section>
+            <p> <b>Number at each node:</b><br>
+                Number of drivers start moving from each node</p>
+        </section>
+        <p><b>Scene:</b><br>Drivers including drunken drives start moving from restaurants and <br>
+        residential areas to the shopping mall.<br>
+        The police Locations for catching maximum number of drunken drivers are needed </p>
     </div>
-  </div>
 
-  <!-- <div class="form-group col-md-10">
-              <form id="changeParaN" action="numn" method="post">
-                <div class="col-sm-3">
-                  <label for="inputNumNode" class="col-sm-2 col-form-label">Node #</label>
-                  <input type="text" name="node" class="form-control" id="inputNumNode" placeholder="Input the number of nodes" onchange="javascript:this.form.submit()">
-                </div>
-              </form>
+</div>
 
-              <button type="button" id="generate-graph">&nbsp; Generate Network</button>
+<!-- <div class="form-group col-md-10">
+            <form id="changeParaN" action="numn" method="post">
+              <div class="col-sm-3">
+                <label for="inputNumNode" class="col-sm-2 col-form-label">Node #</label>
+                <input type="text" name="node" class="form-control" id="inputNumNode" placeholder="Input the number of nodes" onchange="javascript:this.form.submit()">
+              </div>
+            </form>
 
-              <label for="inputNumPolice" class="col-sm-1 col-form-label">Police #</label>
-              <form id="changePara" action="nump" method="post">
-                <div class="col-sm-3">
-                  <input type="text" name="police" class="form-control" id="inputNumPolice" placeholder="Iput the number of policemen" onchange="javascript:this.form.submit()">
-                </div>
-              </form>
-              
+            <button type="button" id="generate-graph">&nbsp; Generate Network</button>
 
-          </div> -->
-  <div class="container-fluid">
+            <label for="inputNumPolice" class="col-sm-1 col-form-label">Police #</label>
+            <form id="changePara" action="nump" method="post">
+              <div class="col-sm-3">
+                <input type="text" name="police" class="form-control" id="inputNumPolice" placeholder="Iput the number of policemen" onchange="javascript:this.form.submit()">
+              </div>
+            </form>
+
+
+        </div> -->
+<div class="container-fluid">
     <div class="row">
-      
-      <div class="col-xs-6">
-        <form id="changePara" class="form-inline">
-          <!-- <div class = "form-row"> -->
-          <div class="form-group">
-            <label for="inputNumPolice">The number of police officers you want to place: </label>
-          </div>
-          <div class="form-group">
-            <input type="number" name="police" value=0 class="form-control " id="inputNumPolice"
-              placeholder="Input the number of policemen" , min="2" ,max="5" style="width: 80px; text-align:center;">
-          </div>
-          <!-- </div> -->
+
+        <div class="col-xs-6">
+            <form id="changePara" class="form-inline">
+                <!-- <div class = "form-row"> -->
+                <div class="form-group">
+                    <label for="inputNumPolice">The number of police officers you want to place: </label>
+                </div>
+                <div class="form-group">
+                    <input type="number" name="police" value=0 class="form-control " id="inputNumPolice"
+                           placeholder="Input the number of policemen" , min="2" ,max="5"
+                           style="width: 80px; text-align:center;">
+                </div>
+                <!-- </div> -->
 
 
-        </form>
-        <div id="policeIcon"></div>
-        <div class="slidercontainer ">
-
-          
-          <form id="changePortion" method="post" class="form-inline">
-            <label for="portionOfDrunkenDriver" class="form-label" id="altertext">Percentage of drunk drivers: </label>
-            10<input id="portionDD" type="range" step="10" class="slider form-control" min=10 max=100>100
-            <b class="p-6" id="PDD-output"></b>
-
-          </form>
-          <form id="changeDiff" method="post" class="form-inline">
-            <label for="difficultyLevel" class="form-label">Level of difficulty: </label>
-            10<input id="difficulty" type="range" step="10" class="slider form-control" min=10 max=100>100
+            </form>
+            <div id="policeIcon"></div>
+            <div class="slidercontainer ">
 
 
-            <b class="p-6" id="difficulty-output"></b>
+                <form id="changePortion" method="post" class="form-inline">
+                    <label for="portionDD" class="form-label" id="altertext">Percentage of drunk
+                        drivers: </label>
+                    10<input id="portionDD" type="range" step="10" class="slider form-control" min=10 max=100>100
+                    <b class="p-6" id="PDD-output"></b>
 
-          </form>
-        </div>
-        <div class="col text-center">
+                </form>
+                <form id="changeDiff" method="post" class="form-inline">
+                    <label for="difficulty" class="form-label">Level of difficulty: </label>
+                    10<input id="difficulty" type="range" step="10" class="slider form-control" min=10 max=100>100
 
-          <button type="button" id="compute-py" class="btn btn-primary btn-lg">Ready</button>
-        </div>
-        <br>
-        <div class="hint-section">
 
-          <div class="center-block">
-            <br>
-            <p><b>Position the police officers by selecting edges, and hit <em>Add Police</em> button</b> 
-              
-              
-            </p>
+                    <b class="p-6" id="difficulty-output"></b>
+
+                </form>
+            </div>
             <div class="col text-center">
 
-            <button type="button" disabled id="add-police" class="btn btn-primary btn-lg">Add Police</button>
+                <button type="button" id="compute-py" class="btn btn-primary btn-lg">Ready</button>
             </div>
             <br>
-          </div>
+            <div class="hint-section">
 
-        </div>
+                <div class="center-block">
+                    <br>
+                    <p><b>Position the police officers by selecting edges, and hit <em>Add Police</em> button</b>
 
-        <div class="col-xs-12">
 
-          <div class="center-block">
+                    </p>
+                    <div class="col text-center">
 
-            <button type="button" disabled id="compute-user" class="btn btn-primary btn-lg">Calculate Performance</button>
-            <input id="percentageOut" type="text" style="text-align:center;">
-          </div>
+                        <button type="button" disabled id="add-police" class="btn btn-primary btn-lg">Add Police
+                        </button>
+                    </div>
+                    <br>
+                </div>
 
-          <br>
+            </div>
 
-        </div>
-        <!-- <div class="checkbox">
-                    <label><input type="checkbox" id="optimalSwitch">Optimal Policing Strategy</label>
-                    
-                  </div> -->
+            <div class="col-xs-12">
 
-        <div class="col-xs-4">
-          <div class ="p-3">
-            <button type="button" id="showHint" disabled class="btn btn-primary btn-space btn-lg">Show Hint</button>
+                <div class="center-block">
 
-          </div>
+                    <button type="button" disabled id="compute-user" class="btn btn-primary btn-lg">Calculate
+                        Performance
+                    </button>
+                    <input id="percentageOut" type="text" style="text-align:center;">
+                </div>
 
-        </div>
-        <div class="col-xs-4">
+                <br>
 
-        <button id="reset" disabled class="btn btn-primary btn-lg">Reset</button>
-        </div>
-        <div class="col-xs-4 mt-1">
+            </div>
+            <!-- <div class="checkbox">
+                        <label><input type="checkbox" id="optimalSwitch">Optimal Policing Strategy</label>
 
-          <button type="button" id="showLocation" disabled class="btn btn-primary btn-space btn-lg">Display Answer</button>
-        </div>  <!-- 
+                      </div> -->
+
+            <div class="col-xs-4">
+                <div class="p-3">
+                    <button type="button" id="showHint" disabled class="btn btn-primary btn-space btn-lg">Show Hint
+                    </button>
+
+                </div>
+
+            </div>
+            <div class="col-xs-4">
+
+                <button id="reset" disabled class="btn btn-primary btn-lg">Reset</button>
+            </div>
+            <div class="col-xs-4 mt-1">
+
+                <button type="button" id="showLocation" disabled class="btn btn-primary btn-space btn-lg">Display
+                    Answer
+                </button>
+            </div>  <!--
                     <p class="bg-info">Policemen Location: </p>
                    <p class="bg-info" id="policeSelected"></p> -->
 
 
+            <div>
+                <section id="best-output" class="sec">
+                </section>
+                <section id="user-output" class="sec">
+                </section>
 
-
-
-
-
-        <div>
-          <section id="best-output" class="sec">
-          </section>
-          <section id="user-output" class="sec">
-          </section>
-
+            </div>
         </div>
-      </div>
     </div>
-
-
-
-
 
 
     <!-- <footer>
@@ -219,8 +236,7 @@
     </footer> -->
 
 
-
-  </div>
+</div>
 
 </body>
 

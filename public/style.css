@@ -14,6 +14,22 @@ input{
 div.graph-container{
   border-style: inset;
 }
+.legend { list-style: none; }
+.legend li { float: left; margin-right: 10px; }
+
+#PDD-output{
+  border-style:solid;
+  border-color:#800000
+  ;
+
+}
+#difficulty-output{
+  border-style:solid;
+  border-color:#800000
+  ;
+ 
+}
+/*.legend span { border: 1px solid #ccc; float: left; width: 12px; height: 12px; margin: 2px; }*/
 /* root attribute that defines all the font and bannersize*/
 /* :root{
 	font-size: 100%;
