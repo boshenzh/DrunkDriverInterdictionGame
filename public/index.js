@@ -152,24 +152,44 @@ $(document).ready(function () {
         function listQ() {
             let selectValue = document.getElementById("game-category").value;
             let textValue = document.getElementById("altertext");
+            let legend1 = document.getElementById("res-legend");
 
             if (selectValue == "iem") {
                 sourcePic = "./enemybase.png";
                 midPic = "./pillbox.png";
                 sinkPic = "./camp.png";
                 textValue.innerHTML = "Percentage of enemies:"
+                document.getElementById('legend-1').innerHTML= "<span><img src='enemybase.png' alt='enemybase' style='width:20px;height:20px;'></span> Enemy Base";
+                document.getElementById('legend-2').innerHTML= "<span><img src='pillbox.png' alt='pillbox' style='width:20px;height:20px;'></span> Pillbox";
+                document.getElementById('legend-3').innerHTML= "<span><img src='camp.png' alt='camp' style='width:20px;height:20px;'></span> Camp";
+                document.getElementById('first-sec').innerHTML= " <b>Number at each node:</b><br>Number of opponent armies starting incading at each node";
+                document.getElementById('second-sec').innerHTML= "<b>Scene:</b><br>Opponent armies start invading from enemy bases and pillboxes to the<br>military base camp<br>Our army locations for catching maximum number of opponent armies are needed ";
+
                 generateNode();
             } else if (selectValue == "smug") {
                 sourcePic = "./warehouse.png";
                 midPic = "./checkpoint.png";
                 sinkPic = "./border.png"
                 textValue.innerHTML = "Percentage of smuggler:"
+                document.getElementById('legend-1').innerHTML= "<span><img src='warehouse.png' alt='warehouse' style='width:20px;height:20px;'></span> Warehouse";
+                document.getElementById('legend-2').innerHTML= "<span><img src='checkpoint.png' alt='checkpoint' style='width:20px;height:20px;'></span> Checkpoint";
+                document.getElementById('legend-3').innerHTML= "<span><img src='border.png' alt='border' style='width:20px;height:20px;'></span> Border";
+                document.getElementById('first-sec').innerHTML= " <b>Number at each node:</b><br>Number of smugglers starting moving from each node";
+                document.getElementById('second-sec').innerHTML= "<b>Scene:</b><br>Smugglers carrying illegal drugs start moving from illegal goods warehouses<br>and checkpoints to the US-Mexico border<br>The police Locations for catching maximum number of smugglers are needed ";
+
                 generateNode();
             } else if (selectValue == "dd") {
                 sourcePic = "./res.png"
                 midPic = "./house.png"
                 sinkPic = "./mall.png"
                 textValue.innerHTML = "Percentage of drunk driver:"
+                document.getElementById('legend-1').innerHTML= "<span><img src='res.png' alt='res' style='width:20px;height:20px;'></span> Restauraunt";
+                document.getElementById('legend-2').innerHTML= "<span><img src='house.png' alt='house' style='width:20px;height:20px;'></span> House";
+                document.getElementById('legend-3').innerHTML= "<span><img src='mall.png' alt='mall' style='width:20px;height:20px;'></span> Mall";
+               
+                document.getElementById('first-sec').innerHTML= " <b>Number at each node:</b><br>Number of drivers start moving from each node";
+                document.getElementById('second-sec').innerHTML= "<b>Scene:</b><br>Drivers including drunken drives start moving from restaurants and <br>residential areas to the shopping mall.<br>The police Locations for catching maximum number of drunken drivers are needed ";
+
                 generateNode();
             }
 
